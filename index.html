@@ -45,9 +45,10 @@
 <body class="bg-gray-50 font-inter antialiased">
 
     <!-- Top Banner Placeholder (Matches image structure) -->
-    <div class="ad-placeholder">
-        [A-ADS Top Banner #1 - 970x90 Super Leaderboard]
-    </div>
+    <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
+          <iframe data-aa='2416382' src='//acceptable.a-ads.com/2416382/?size=Adaptive'
+                            style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
+        </div>
 
     <!-- Header Section -->
     <header class="bg-white shadow-sm sticky top-0 z-10">
@@ -157,13 +158,13 @@
             <!-- Feature Summary Grid -->
             <div class="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-gray-100">
                 
-                <!-- Feature 1: Per Claim -->
+                <!-- Feature 1: Per Claim (UPDATED Amount) -->
                 <div class="flex flex-col items-center">
-                    <span class="text-lg font-extrabold text-doge-dark">0.5 DOGE</span>
+                    <span class="text-lg font-extrabold text-doge-dark">0.002 DOGE</span>
                     <span class="text-xs text-gray-500 mt-1">Per Claim</span>
                 </div>
 
-                <!-- Feature 2: Frequency - UPDATED to 5 Minutes -->
+                <!-- Feature 2: Frequency - 5 Minutes -->
                 <div class="flex flex-col items-center">
                     <span class="text-lg font-extrabold text-doge-dark">Every 5 Minutes</span>
                     <span class="text-xs text-gray-500 mt-1">Claim Frequency</span>
@@ -179,12 +180,24 @@
         </div>
     </main>
     
+    <!-- Success Notification Modal (NEW ELEMENT) -->
+    <div id="notification" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 p-4 rounded-xl shadow-2xl bg-green-600 text-white font-bold transition-all duration-500 ease-out opacity-0 translate-y-full pointer-events-none z-50">
+        <div class="flex items-center space-x-2">
+            <!-- Checkmark Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+            <span id="notification-message">Sent 0.002 DOGE in your FaucetPay</span>
+        </div>
+    </div>
+    
     <!-- Footer/Script -->
     <script>
         // Simple JavaScript for the Timer and Button State (Not persistent, but functional)
         const timerElement = document.getElementById('timer');
         const claimButton = document.getElementById('claimButton');
         const claimForm = document.getElementById('claimForm');
+        const notificationElement = document.getElementById('notification');
+        const notificationMessage = document.getElementById('notification-message');
+        const claimedAmount = "0.002 DOGE"; // Define claimed amount here for consistency
         let countdownSeconds = 0; // Starts at 0:00 as per image
 
         function updateTimerDisplay() {
@@ -219,13 +232,44 @@
             }, 1000);
         }
 
+        // Function to show the animated notification
+        function showNotification(message) {
+            notificationMessage.textContent = message;
+            
+            // 1. Show: Slide up and fade in
+            notificationElement.classList.remove('opacity-0', 'translate-y-full');
+            notificationElement.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                // 2. Hide: Slide down and fade out
+                notificationElement.classList.remove('opacity-100', 'translate-y-0');
+                notificationElement.classList.add('opacity-0', 'translate-y-full');
+            }, 3000); // Wait 3 seconds
+        }
+
         claimForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // In a real application, you would send the wallet address to a server here.
-            console.log("Claim Attempted for Address: ", document.getElementById('walletAddress').value);
+            // If the button is disabled, do nothing (shouldn't happen if timer is set right)
+            if (claimButton.disabled) {
+                console.log("Claim not ready yet.");
+                return;
+            }
 
-            // Simulate setting a new claim timer (5 minutes - UPDATED)
+            const walletAddress = document.getElementById('walletAddress').value;
+            if (!walletAddress) {
+                console.error("Wallet address is required.");
+                // In a real app, show an error modal here.
+                return;
+            }
+
+            console.log("Claim Attempted for Address: ", walletAddress);
+
+            // Show animated notification with the new amount
+            const successMessage = `Sent ${claimedAmount} in your FaucetPay`;
+            showNotification(successMessage); 
+
+            // Simulate setting a new claim timer (5 minutes)
             countdownSeconds = 5 * 60; 
             
             // Restart the countdown
@@ -233,9 +277,6 @@
 
             // Clear input for aesthetic purposes
             document.getElementById('walletAddress').value = '';
-
-            // Simple success message (replace with a custom modal in a real app)
-            console.log("Claim initiated! Please wait for the timer to finish.");
         });
 
         // Initialize the timer on window load
