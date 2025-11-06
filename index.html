@@ -16,7 +16,8 @@
     <style>
         /* Custom styles to ensure the page structure matches the image */
         .ad-placeholder {
-            @apply text-xs text-gray-400 py-3 text-center border-b border-gray-200;
+            /* Removed border-b here as it might interfere with iframe presentation */
+            @apply text-xs text-gray-400 py-3 text-center;
         }
         .font-inter {
             font-family: 'Inter', sans-serif;
@@ -24,6 +25,13 @@
         .main-container {
             /* Mimics the height behavior of a single-page app layout */
             min-height: calc(100vh - 80px); /* Adjust for header height */
+        }
+        /* Custom style for the user-provided iframe container (AD #3) */
+        .adaptive-ad-container {
+            width: 100%;
+            margin: auto;
+            position: relative;
+            z-index: 99998;
         }
     </style>
     <script>
@@ -42,16 +50,18 @@
         }
     </script>
 </head>
-<body class="bg-gray-50 font-inter antialiased">
+<body class="bg-gray-50 font-inter antialiased"> <!-- Removed pt-24 -->
 
-    <!-- Top Banner Placeholder (Matches image structure) -->
-    <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
-          <iframe data-aa='2416382' src='//acceptable.a-ads.com/2416382/?size=Adaptive'
-                            style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
+    <!-- AD #1 (Top Banner - Super Leaderboard) - RESTORED -->
+    <div class="ad-placeholder border-b border-gray-200">
+        <div class="w-full flex justify-center items-center">
+            <iframe data-aa='2416382' src='//acceptable.a-ads.com/2416382/?size=Adaptive'
+                style='border:0; padding:0; width:90%; height:90px; overflow:hidden; display: block; margin: auto;'></iframe>
         </div>
+    </div>
 
     <!-- Header Section -->
-    <header class="bg-white shadow-sm sticky top-0 z-10">
+    <header class="bg-white shadow-sm sticky top-0 z-10"> <!-- Adjusted sticky top back to 0 -->
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
                 <!-- Logo -->
@@ -79,104 +89,146 @@
         </div>
     </header>
 
-    <!-- Header Banner Placeholder (Matches image structure) -->
-    <div class="ad-placeholder border-none">
-        [A-ADS Header Banner #2 - 728x90 Leaderboard]
+    <!-- AD #2 (Header Banner - Leaderboard) -->
+    <div class="ad-placeholder border-b border-gray-200">
+        <div class="w-full flex justify-center items-center">
+            <iframe data-aa='2416382' src='//acceptable.a-ads.com/2416382/?size=Adaptive'
+                style='border:0; padding:0; width:90%; height:90px; overflow:hidden; display: block; margin: auto;'></iframe>
+        </div>
     </div>
 
-    <!-- Banner Placeholder #3 (Above Claim Section) -->
-    <div class="ad-placeholder border-b-0">
-        [A-ADS Banner #3 - 728x90 - Above Claim Section]
+    <!-- AD #3 (Adaptive Banner - User Script) -->
+    <div class="ad-placeholder border-b-0 py-6 max-w-5xl mx-auto w-full">
+        <div id="frame-ad3" class="adaptive-ad-container">
+            <iframe data-aa='2416382' src='//acceptable.a-ads.com/2416382/?size=Adaptive'
+                style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display: block; margin: auto'></iframe>
+        </div>
     </div>
     
-    <!-- Banner Placeholder #4 (Moved to above Claim Section) -->
-    <div class="ad-placeholder border-b-0 py-6">
-        [A-ADS Banner #4 - 728x90 - Second Above Claim Section]
-    </div>
-    
-    <!-- Main Content: Claim Card -->
-    <main class="main-container flex items-start justify-center p-4 pt-12">
-        <div class="bg-white shadow-2xl shadow-gray-200 rounded-3xl p-6 sm:p-10 max-w-xl w-full text-center border border-gray-200">
+    <!-- Main Content: Claim Card flanked by Side Ads (Ads 4 & 5) -->
+    <main class="main-container flex justify-center p-4 pt-12">
+        <div class="w-full max-w-7xl flex flex-col lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-6 items-start">
             
-            <!-- Icon -->
-            <div class="flex justify-center mb-6">
-                <!-- Using a simple wallet/coin icon with the brand color -->
-                <div class="bg-doge-orange/10 p-4 rounded-xl inline-flex">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet text-doge-orange">
-                        <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h14a2 2 0 0 1 0 4H5a2 2 0 0 0 0 4h14v-3"/><path d="M20 17v3a1 1 0 0 1-1 1H5a2 2 0 0 1 0-4h14a2 2 0 0 0 0-4H9"/>
-                    </svg>
+            <!-- AD #4 (Left Side Banner - Visible on large screens) -->
+            <div class="hidden lg:block w-full sticky top-24">
+                <div class="w-full h-[600px] flex items-center justify-center">
+                    <iframe data-aa='2416382' src='//acceptable.a-ads.com/2416382/?size=Adaptive'
+                        style='border:0; padding:0; width:160px; height:600px; overflow:hidden; display: block;'></iframe>
                 </div>
             </div>
 
-            <!-- Title and Subtitle -->
-            <h2 class="text-3xl font-extrabold text-gray-800 mb-2">Claim Free Dogecoin Now</h2>
-            <p class="text-gray-500 mb-8 max-w-sm mx-auto">
-                Enter your FaucetPay wallet address to receive instant DOGE rewards
-            </p>
-
-            <!-- Claim Form -->
-            <form id="claimForm">
-                <div class="text-left mb-6">
-                    <label for="walletAddress" class="block text-sm font-medium text-gray-700 mb-2">
-                        FaucetPay Wallet Address
-                    </label>
-                    <input 
-                        type="text" 
-                        id="walletAddress" 
-                        placeholder="Enter your FaucetPay DOGE wallet address" 
-                        class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-inner focus:ring-doge-orange focus:border-doge-orange transition duration-150"
-                        required
-                    >
-                </div>
-
-                <!-- Next Claim Timer -->
-                <div class="flex justify-between items-center text-sm font-medium text-gray-500 mb-8">
-                    <div class="flex items-center space-x-2">
-                         <!-- Using a Clock Icon for better visual association -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-history"><path d="M3 10a9 9 0 1 0 9-9v1"/><path d="M12 2v10h10"/></svg>
-                        <span>Next Claim Available:</span>
-                    </div>
-                    <span id="timer" class="text-lg font-bold text-doge-dark">0:00</span>
-                </div>
-
-                <!-- Claim Button -->
-                <button 
-                    type="submit" 
-                    id="claimButton"
-                    class="w-full bg-doge-orange hover:bg-doge-dark text-white font-extrabold text-lg py-4 rounded-xl shadow-lg shadow-doge-orange/30 transition duration-300 transform hover:scale-[1.01] flex items-center justify-center space-x-3 disabled:opacity-50"
-                >
-                    <!-- Coin/Claim Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-badge-check">
-                        <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/>
-                        <path d="m9 12 2 2 4-4"/>
-                    </svg>
-                    <span>CLAIM DOGE Now</span>
-                </button>
-
-            </form>
-
-            <!-- Feature Summary Grid -->
-            <div class="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-gray-100">
+            <!-- CENTER COLUMN (Claim Card + Bottom Ads) -->
+            <div class="w-full">
                 
-                <!-- Feature 1: Per Claim (UPDATED Amount) -->
-                <div class="flex flex-col items-center">
-                    <span class="text-lg font-extrabold text-doge-dark">0.002 DOGE</span>
-                    <span class="text-xs text-gray-500 mt-1">Per Claim</span>
+                <!-- Claim Card -->
+                <div class="bg-white shadow-2xl shadow-gray-200 rounded-3xl p-6 sm:p-10 max-w-xl w-full mx-auto text-center border border-gray-200">
+                    
+                    <!-- Icon -->
+                    <div class="flex justify-center mb-6">
+                        <div class="bg-doge-orange/10 p-4 rounded-xl inline-flex">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet text-doge-orange">
+                                <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h14a2 2 0 0 1 0 4H5a2 2 0 0 0 0 4h14v-3"/><path d="M20 17v3a1 1 0 0 1-1 1H5a2 2 0 0 1 0-4h14a2 2 0 0 0 0-4H9"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Title and Subtitle -->
+                    <h2 class="text-3xl font-extrabold text-gray-800 mb-2">Claim Free Dogecoin Now</h2>
+                    <p class="text-gray-500 mb-8 max-w-sm mx-auto">
+                        Enter your FaucetPay wallet address to receive instant DOGE rewards
+                    </p>
+
+                    <!-- Claim Form -->
+                    <form id="claimForm">
+                        <div class="text-left mb-6">
+                            <label for="walletAddress" class="block text-sm font-medium text-gray-700 mb-2">
+                                FaucetPay Wallet Address
+                            </label>
+                            <input 
+                                type="text" 
+                                id="walletAddress" 
+                                placeholder="Enter your FaucetPay DOGE wallet address" 
+                                class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-inner focus:ring-doge-orange focus:border-doge-orange transition duration-150"
+                                required
+                            >
+                        </div>
+
+                        <!-- Next Claim Timer -->
+                        <div class="flex justify-between items-center text-sm font-medium text-gray-500 mb-8">
+                            <div class="flex items-center space-x-2">
+                                 <!-- Using a Clock Icon for better visual association -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-history"><path d="M3 10a9 9 0 1 0 9-9v1"/><path d="M12 2v10h10"/></svg>
+                                <span>Next Claim Available:</span>
+                            </div>
+                            <span id="timer" class="text-lg font-bold text-doge-dark">0:00</span>
+                        </div>
+
+                        <!-- Claim Button -->
+                        <button 
+                            type="submit" 
+                            id="claimButton"
+                            class="w-full bg-doge-orange hover:bg-doge-dark text-white font-extrabold text-lg py-4 rounded-xl shadow-lg shadow-doge-orange/30 transition duration-300 transform hover:scale-[1.01] flex items-center justify-center space-x-3 disabled:opacity-50"
+                        >
+                            <!-- Coin/Claim Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-badge-check">
+                                <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/>
+                                <path d="m9 12 2 2 4-4"/>
+                            </svg>
+                            <span>CLAIM DOGE Now</span>
+                        </button>
+
+                    </form>
+
+                    <!-- Feature Summary Grid -->
+                    <div class="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-gray-100">
+                        
+                        <!-- Feature 1: Per Claim -->
+                        <div class="flex flex-col items-center">
+                            <span class="text-lg font-extrabold text-doge-dark">0.002 DOGE</span>
+                            <span class="text-xs text-gray-500 mt-1">Per Claim</span>
+                        </div>
+
+                        <!-- Feature 2: Frequency - 5 Minutes -->
+                        <div class="flex flex-col items-center">
+                            <span class="text-lg font-extrabold text-doge-dark">Every 5 Minutes</span>
+                            <span class="text-xs text-gray-500 mt-1">Claim Frequency</span>
+                        </div>
+
+                        <!-- Feature 3: Withdrawal -->
+                        <div class="flex flex-col items-center">
+                            <span class="text-lg font-extrabold text-doge-dark">No Minimum</span>
+                            <span class="text-xs text-gray-500 mt-1">Withdrawal</span>
+                        </div>
+
+                    </div>
+                </div> <!-- End Claim Card -->
+
+                <!-- AD #6 (Below Claim 1) -->
+                <div class="mt-8">
+                    <div class="w-full max-w-xl mx-auto flex items-center justify-center">
+                        <iframe data-aa='2416382' src='//acceptable.a-ads.com/2416382/?size=Adaptive'
+                            style='border:0; padding:0; width:100%; height:90px; overflow:hidden; display: block; margin: auto;'></iframe>
+                    </div>
                 </div>
 
-                <!-- Feature 2: Frequency - 5 Minutes -->
-                <div class="flex flex-col items-center">
-                    <span class="text-lg font-extrabold text-doge-dark">Every 5 Minutes</span>
-                    <span class="text-xs text-gray-500 mt-1">Claim Frequency</span>
+                <!-- AD #7 (Below Claim 2) -->
+                <div class="mt-4 mb-12">
+                    <div class="w-full max-w-xl mx-auto flex items-center justify-center">
+                        <iframe data-aa='2416382' src='//acceptable.a-ads.com/2416382/?size=Adaptive'
+                            style='border:0; padding:0; width:100%; height:90px; overflow:hidden; display: block; margin: auto;'></iframe>
+                    </div>
                 </div>
 
-                <!-- Feature 3: Withdrawal -->
-                <div class="flex flex-col items-center">
-                    <span class="text-lg font-extrabold text-doge-dark">No Minimum</span>
-                    <span class="text-xs text-gray-500 mt-1">Withdrawal</span>
-                </div>
+            </div> <!-- End Center Column -->
 
+            <!-- AD #5 (Right Side Banner - Visible on large screens) -->
+            <div class="hidden lg:block w-full sticky top-24">
+                <div class="w-full h-[600px] flex items-center justify-center">
+                    <iframe data-aa='2416382' src='//acceptable.a-ads.com/2416382/?size=Adaptive'
+                        style='border:0; padding:0; width:160px; height:600px; overflow:hidden; display: block;'></iframe>
+                </div>
             </div>
+
         </div>
     </main>
     
